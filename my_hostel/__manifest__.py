@@ -9,6 +9,8 @@
     "license": "AGPL-3",
     "depends": ["base"],
     "data": [
+    	"security/hostel_security.xml",
+        "security/ir.model.access.csv",
         "views/hostel.xml",
 	],
     # This demo data files will be loaded if db initialize with demo data (commented because file is not added in this example)
