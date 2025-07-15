@@ -1,7 +1,11 @@
 {
     "name": "Hostel Management",  # Module title
     "summary": "Manage Hostel easily",  # Module subtitle phrase
-    "description": "Efficiently manage the entire residential facility in the school.",  # Supports reStructuredText(RST) format (description is Deprecated)
+    "description": """
+Manage Hostel
+==============
+Efficiently manage the entire residential facility in the school
+    """,  # Supports reStructuredText(RST) format (description is Deprecated)
     "version": "18.0.1.0.0",
     "author": "Serpent Consulting Services Pvt. Ltd.",
     "category": "Tools",
@@ -9,10 +13,10 @@
     "license": "AGPL-3",
     "depends": ["base"],
     "data": [
-    	"security/hostel_security.xml",
+        "security/hostel_security.xml",
         "security/ir.model.access.csv",
         "views/hostel.xml",
-	],
+    ],
     # This demo data files will be loaded if db initialize with demo data (commented because file is not added in this example)
     # 'demo': [
     #     'demo.xml'
