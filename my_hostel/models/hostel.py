@@ -19,6 +19,7 @@ class HostelRoom(models.Model):
                              help="Enter more information")
     description = fields.Html('Description')
     room_rating = fields.Float('Hostel Average Rating', digits=(14, 4))
+    member_ids = fields.Many2many('hostel.room.member', string='Members')
     state = fields.Selection([
         ('draft', 'Unavailable'),
         ('available', 'Available'),
@@ -87,6 +88,19 @@ class HostelRoom(models.Model):
         Rooms = self.search(domain)
         _logger.info('Room found: %s', Rooms)
         return True
+        
+    # Filter recordset
+    def filter_members(self):
+        all_rooms = self.search([])
+        filtered_rooms = self.rooms_with_multiple_members(all_rooms)
+        _logger.info('Filtered Rooms: %s', filtered_rooms)
+
+    @api.model
+    def rooms_with_multiple_members(self, all_rooms):
+        def predicate(room):
+            if len(room.member_ids) > 1:
+                return True
+        return all_rooms.filtered(predicate)
 
 
 class HostelRoomMember(models.Model):
