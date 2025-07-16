@@ -12,3 +12,4 @@ class Hostel(models.Model):
     is_public = fields.Boolean(groups='my_hostel.group_hostel_manager')
     notes = fields.Text(groups="my_hostel.group_hostel_manager")
     date_start = fields.Date('Start Date', groups='my_hostel.group_start_date')
+
