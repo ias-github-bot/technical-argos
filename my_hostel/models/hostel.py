@@ -32,6 +32,12 @@ class Hostel(models.Model):
                                  digits='Rating Value' # Method 2
                                  )
     category_id = fields.Many2one('hostel.category')
+    rooms_count = fields.Integer(compute="_compute_rooms_count")
+
+    def _compute_rooms_count(self):
+        room_obj = self.env['hostel.room']
+        for hostel in self:
+            hostel.rooms_count = room_obj.search_count([('hostel_id', '=', hostel.id)])
 
     @api.depends('hostel_code')
     def _compute_display_name(self):
