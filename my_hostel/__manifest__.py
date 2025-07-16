@@ -16,12 +16,8 @@ Efficiently manage the entire residential facility in the school
         'security/groups.xml',
         'security/ir.model.access.csv',
         'security/security_rules.xml',
-        # 'views/res_config_settings.xml',
-        'views/hostel_hostel.xml'
+        'views/hostel_room.xml',
+        'views/hostel_room_category.xml'
     ],
-    # This demo data files will be loaded if db initialize with demo data (commented because file is not added in this example)
-    # 'demo': [
-    #     'demo.xml'
-    # ],
     "installable": True,
 }
