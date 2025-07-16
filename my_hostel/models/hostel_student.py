@@ -6,11 +6,6 @@ class HostelStudent(models.Model):
     _name = "hostel.student"
     _description = "Hostel Student Information"
 
-    partner_id = fields.Many2one('res.partner', ondelete='cascade')
-    
-    # partner_id = fields.Many2one('res.partner', ondelete='cascade', delegate=True)
-
-
     @api.depends("admission_date", "discharge_date")
     def _compute_check_duration(self):
         """Method to check duration"""
@@ -25,9 +20,12 @@ class HostelStudent(models.Model):
                 if duration != stu.duration:
                     stu.discharge_date = (stu.admission_date + timedelta(days=stu.duration)).strftime('%Y-%m-%d')
 
+    name = fields.Char("Student Name")
     gender = fields.Selection([("male", "Male"),
         ("female", "Female"), ("other", "Other")],
         string="Gender", help="Student gender")
+    active = fields.Boolean("Active", default=True,
+        help="Activate/Deactivate hostel record")
     room_id = fields.Many2one("hostel.room", "Room",
         help="Select hostel room")
     hostel_id = fields.Many2one("hostel.hostel", related='room_id.hostel_id')
