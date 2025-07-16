@@ -44,7 +44,20 @@
                         <field name="child_ids"
                                invisible="not parent_id"
                                required="parent_id"/>
-                        <field name="hostel_room_ids" widget="many2many_tags"/>
+                        <field name="hostel_room_ids">
+                            <list>
+                                <field name="name"/>
+                                <field name="room_no"/>
+                            </list>
+                            <form>
+                                <sheet>
+                                    <group>
+                                        <field name="name"/>
+                                        <field name="room_no"/>
+                                    </group>
+                                </sheet>
+                            </form>
+                        </field>
                     </group>
                 </sheet>
                 <div class="oe_chatter">
