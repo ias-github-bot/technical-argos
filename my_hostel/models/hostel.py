@@ -15,80 +15,24 @@ class HostelRoom(models.Model):
 
     name = fields.Char(string="Hostel Name", required=True)
     room_no = fields.Char(string="Room Number", required=True)
-    other_info = fields.Text("Other Information",
-                             help="Enter more information")
     description = fields.Html('Description')
     room_rating = fields.Float('Hostel Average Rating', digits=(14, 4))
     member_ids = fields.Many2many('hostel.room.member', string='Members')
-    previous_room_id = fields.Many2one('hostel.room', string='Previous Room')
-    state = fields.Selection([
-        ('draft', 'Unavailable'),
-        ('available', 'Available'),
-        ('closed', 'Closed')],
-        'State', default="draft")
-    remarks = fields.Text('Remarks')
+    category_id = fields.Many2one('hostel.room.category', string='Category')
+    cost_price = fields.Float('Room Cost')
+
+    def grouped_data(self):
+        data = self._get_average_cost()
+        _logger.info("Grouped Data %s" % data)
 
     @api.model
-    def create(self, values):
-        if not self.user_has_groups('my_hostel.group_hostel_manager'):
-            values.get('remarks')
-            if values.get('remarks'):
-                raise UserError(
-                    'You are not allowed to modify '
-                    'remarks'
-                )
-        return super(HostelRoom, self).create(values)
-
-    def write(self, values):
-        if not self.user_has_groups('my_hostel.group_hostel_manager'):
-            if values.get('remarks'):
-                raise UserError(
-                    'You are not allowed to modify '
-                    'remarks'
-                )
-        return super(HostelRoom, self).write(values)
-
-    @api.model
-    def is_allowed_transition(self, old_state, new_state):
-        allowed = [('draft', 'available'),
-                   ('available', 'closed'),
-                   ('closed', 'draft')]
-        return (old_state, new_state) in allowed
-
-    def change_state(self, new_state):
-        for room in self:
-            if room.is_allowed_transition(room.state, new_state):
-                room.state = new_state
-            else:
-                message = _('Moving from %s to %s is not allowed') % (room.state, new_state)
-                raise UserError(message)
-
-    def make_available(self):
-        self.change_state('available')
-
-    def make_closed(self):
-        self.change_state('closed')
-
-    def name_get(self):
-        result = []
-        for room in self:
-            members = room.member_ids.mapped('name')
-            name = '%s (%s)' % (room.name, ', '.join(members))
-            result.append((room.id, name))
-        return result
-
-    @api.model
-    def _name_search(self, name='', args=None, operator='ilike', limit=100, name_get_uid=None):
-        args = [] if args is None else args.copy()
-        if not(name == '' and operator == 'ilike'):
-            args += ['|', '|', '|',
-                ('name', operator, name),
-                ('room_no', operator, name),
-                ('member_ids.name', operator, name)
-            ]
-        return super(HostelRoom, self)._name_search(
-            name=name, args=args, operator=operator,
-            limit=limit, name_get_uid=name_get_uid)
+    def _get_average_cost(self):
+        grouped_result = self.read_group(
+            [('cost_price', "!=", False)], # Domain
+            ['category_id', 'cost_price:avg'], # Fields to access
+            ['category_id'] # group_by
+            )
+        return grouped_result
 
 
 class HostelRoomMember(models.Model):

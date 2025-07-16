@@ -16,16 +16,12 @@
         <field name="model">hostel.room</field>
         <field name="arch" type="xml">
             <form>
-                <header>
-                    <button name="make_available" string="Make Available" type="object"/>
-                    <button name="make_closed"  string="Make Closed" type="object"/>
-                    <field name="state" widget="statusbar"/>
-                </header>
                 <group>
                     <group>
                         <field name="name"/>
                         <field name="room_no"/>
-                        <field name="previous_room_id"/>
+                        <field name="cost_price"/>
+                        <field name="category_id"/>
                     </group>
                     <group>
                         <field name="description"/>
@@ -44,7 +40,6 @@
             <list>
                 <field name="name"/>
                 <field name="room_no"/>
-                <field name="state"/>
             </list>
         </field>
     </record>
@@ -57,7 +52,6 @@
             <search>
                 <field name="name"/>
                 <field name="room_no"/>
-                <field name="state"/>
             </search>
         </field>
     </record>
