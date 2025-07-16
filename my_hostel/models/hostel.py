@@ -15,6 +15,7 @@ class HostelRoom(models.Model):
 
     name = fields.Char(string="Hostel Name", required=True)
     room_no = fields.Char(string="Room Number", required=True)
+    allocation_date = fields.date(string="Allocation Date")
     other_info = fields.Text("Other Information",
                              help="Enter more information")
     description = fields.Html('Description')
