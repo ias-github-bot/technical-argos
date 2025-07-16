@@ -102,6 +102,16 @@ class HostelRoom(models.Model):
                 return True
         return all_rooms.filtered(predicate)
 
+    # Traversing recordset
+    def mapped_rooms(self):
+        all_rooms = self.search([])
+        room_authors = self.get_member_names(all_rooms)
+        _logger.info('Room Members: %s', room_authors)
+
+    @api.model
+    def get_member_names(self, all_rooms):
+        return all_rooms.mapped('member_ids.name')
+
 
 class HostelRoomMember(models.Model):
 
@@ -114,4 +124,5 @@ class HostelRoomMember(models.Model):
     date_end = fields.Date('Termination Date')
     member_number = fields.Char()
     date_of_birth = fields.Date('Date of birth')
+    name = fields.Char('Name')
 
