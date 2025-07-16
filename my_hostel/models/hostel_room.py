@@ -1,6 +1,7 @@
 from odoo import fields, models, api, _
 from odoo.exceptions import ValidationError
 
+
 class HostelRoom(models.Model):
 
     _name = "hostel.room"
@@ -12,6 +13,11 @@ class HostelRoom(models.Model):
         """Method to check room availability"""
         for rec in self:
             rec.availability = rec.student_per_room - len(rec.student_ids.ids)
+
+    @api.model
+    def _default_room_stage(self):
+        Stage = self.env['hostel.room.stage']
+        return Stage.search([], limit=1)
 
     name = fields.Char(string="Room Name", required=True)
     room_no = fields.Char("Room No.", required=True)
@@ -29,7 +35,10 @@ class HostelRoom(models.Model):
         help="Students allocated per room")
     availability = fields.Float(compute="_compute_check_availability",
         store=True, string="Availability", help="Room availability in hostel")
-    stage = fields.Selection([('draft', 'draft'), ('available', 'Available')], default='draft')
+    stage_id = fields.Many2one(
+        'hostel.room.stage',
+        default=_default_room_stage
+    )
 
     _sql_constraints = [
        ("room_no_unique", "unique(room_no)", "Room number must be unique!")]
@@ -39,3 +48,13 @@ class HostelRoom(models.Model):
         """Constraint on negative rent amount"""
         if self.rent_amount < 0:
             raise ValidationError(_("Rent Amount Per Month should not be a negative value!"))
+
+
+class HostelRoomStage(models.Model):
+    _name = 'hostel.room.stage'
+    _description = 'Room Stages'
+    _order = 'sequence,name'
+
+    name = fields.Char("Name")
+    sequence = fields.Integer("Sequence")
+    fold = fields.Boolean("Fold?")

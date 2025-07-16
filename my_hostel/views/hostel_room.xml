@@ -8,6 +8,7 @@
                 <field name="name"/>
                 <field name="room_no"/>
                 <field name="floor_no"/>
+                <field name="stage_id"/>
             </list>
         </field>
     </record>
@@ -18,7 +19,7 @@
         <field name="arch" type="xml">
             <form string="Room">
                 <header>
-                    <field name="stage" widget="statusbar" statusbar_visible="draft,availabil"/>
+                    <field name="stage_id" widget="statusbar" options="{'clickable': '1', 'fold_field': 'fold'}"/>
                 </header>
                 <sheet>
                     <group>
