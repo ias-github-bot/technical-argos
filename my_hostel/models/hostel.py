@@ -20,6 +20,7 @@ class HostelRoom(models.Model):
     description = fields.Html('Description')
     room_rating = fields.Float('Hostel Average Rating', digits=(14, 4))
     member_ids = fields.Many2many('hostel.room.member', string='Members')
+    previous_room_id = fields.Many2one('hostel.room', string='Previous Room')
     state = fields.Selection([
         ('draft', 'Unavailable'),
         ('available', 'Available'),
@@ -67,82 +68,27 @@ class HostelRoom(models.Model):
 
     def make_closed(self):
         self.change_state('closed')
-        
-    def log_all_room_members(self):
-        hostel_room_obj = self.env['hostel.room.member']  # This is an empty recordset of model hostel.room.member
-        all_members = hostel_room_obj.search([])
-        print("ALL MEMBERS:", all_members)
-        return True
 
-    def create_categories(self):
-        categ1 = {
-            'name': 'Child category 1',
-            'description': 'Description for child 1'
-        }
-        categ2 = {
-            'name': 'Child category 2',
-            'description': 'Description for child 2'
-        }
-        parent_category_val = {
-            'name': 'Parent category',
-            'description': 'Description for parent category',
-            'child_ids': [
-                (0, 0, categ1),
-                (0, 0, categ2),
+    def name_get(self):
+        result = []
+        for room in self:
+            members = room.member_ids.mapped('name')
+            name = '%s (%s)' % (room.name, ', '.join(members))
+            result.append((room.id, name))
+        return result
+
+    @api.model
+    def _name_search(self, name='', args=None, operator='ilike', limit=100, name_get_uid=None):
+        args = [] if args is None else args.copy()
+        if not(name == '' and operator == 'ilike'):
+            args += ['|', '|', '|',
+                ('name', operator, name),
+                ('room_no', operator, name),
+                ('member_ids.name', operator, name)
             ]
-        }
-        self.env['hostel.room.category'].create(parent_category_val)
-        return True
-
-    def update_room_no(self):
-        self.ensure_one()
-        self.room_no = "RM002"
-
-    def find_room(self):
-        domain = [
-            '|',
-                '&', ('name', 'ilike', 'Room Name'),
-                     ('category_id.name', '=', 'Category Name'),
-                '&', ('name', 'ilike', 'Second Room Name'),
-                     ('category_id.name', '=', 'Second Category Name')
-        ]
-        Rooms = self.search(domain)
-        _logger.info('Room found: %s', Rooms)
-        return True
-        
-    # Filter recordset
-    def filter_members(self):
-        all_rooms = self.search([])
-        filtered_rooms = self.rooms_with_multiple_members(all_rooms)
-        _logger.info('Filtered Rooms: %s', filtered_rooms)
-
-    @api.model
-    def rooms_with_multiple_members(self, all_rooms):
-        def predicate(room):
-            if len(room.member_ids) > 1:
-                return True
-        return all_rooms.filtered(predicate)
-
-    # Traversing recordset
-    def mapped_rooms(self):
-        all_rooms = self.search([])
-        room_authors = self.get_member_names(all_rooms)
-        _logger.info('Rooms Members: %s', room_authors)
-
-    @api.model
-    def get_member_names(self, all_rooms):
-        return all_rooms.mapped('member_ids.name')
-    
-    # Sorting recordset
-    def sort_room(self):
-        all_rooms = self.search([])
-        rooms_sorted = self.sort_rooms_by_rating(all_rooms)
-        _logger.info('Rooms before sorting: %s', all_rooms)
-        _logger.info('Rooms after sorting: %s', rooms_sorted)
-
-    @api.model
-    def sort_rooms_by_rating(self, all_rooms):
-        return all_rooms.sorted(key='room_rating')
+        return super(HostelRoom, self)._name_search(
+            name=name, args=args, operator=operator,
+            limit=limit, name_get_uid=name_get_uid)
 
 
 class HostelRoomMember(models.Model):
@@ -155,5 +101,6 @@ class HostelRoomMember(models.Model):
     date_start = fields.Date('Member Since')
     date_end = fields.Date('Termination Date')
     member_number = fields.Char()
+    member_code = fields.Integer()
     date_of_birth = fields.Date('Date of birth')
 
