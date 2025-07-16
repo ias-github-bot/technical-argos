@@ -6,13 +6,6 @@ class HostelStudent(models.Model):
     _name = "hostel.student"
     _description = "Hostel Student Information"
 
-    @api.depends("admission_date", "discharge_date")
-    def _compute_check_duration(self):
-        """Method to check duration"""
-        for rec in self:
-            if rec.discharge_date and rec.admission_date:
-                rec.duration = (rec.discharge_date - rec.admission_date).days
-
     def _inverse_duration(self):
         for stu in self:
             if stu.discharge_date and stu.admission_date:
@@ -39,7 +32,7 @@ class HostelStudent(models.Model):
         default=fields.Datetime.today)
     discharge_date = fields.Date("Discharge Date",
         help="Date on which student discharge")
-    duration = fields.Integer("Duration", compute="_compute_check_duration", inverse="_inverse_duration",
+    duration = fields.Integer("Duration", inverse="_inverse_duration",
                                help="Enter duration of living")
 
     def action_assign_room(self):
@@ -56,3 +49,11 @@ class HostelStudent(models.Model):
     def action_remove_room(self):
         if self.env.context.get("is_hostel_room"):
             self.room_id = False
+
+    @api.onchange('admission_date', 'discharge_date')
+    def onchange_duration(self):
+        if self.discharge_date and self.admission_date:
+            self.duration = (self.discharge_date.year - \
+                            self.admission_date.year) * 12 + \
+                            (self.discharge_date.month - \
+                            self.admission_date.month)
