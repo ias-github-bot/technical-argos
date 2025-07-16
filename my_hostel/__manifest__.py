@@ -14,6 +14,7 @@ Description related to Hostel.
     "depends": ['base'],
     "license": "AGPL-3",
     'data': [
+        'data/data.xml',
         'security/groups.xml',
         'security/ir.model.access.csv',
         'views/hostel_room.xml',
