@@ -13,7 +13,7 @@ class HostelRoom(models.Model):
     _inherit = ['mail.thread']
     _description = "Information about hostel Room"
 
-    name = fields.Char(string="Hostel Name", required=True)
+    name = fields.Char(parent_idstring="Hostel Name", required=True)
     room_no = fields.Char(string="Room Number", required=True)
     other_info = fields.Text("Other Information",
                              help="Enter more information")
