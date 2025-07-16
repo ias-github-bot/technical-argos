@@ -25,6 +25,15 @@ class HostelRoom(models.Model):
         ('available', 'Available'),
         ('closed', 'Closed')],
         'State', default="draft")
+    cost_price = fields.Float('Room Cost')
+
+    @api.model
+    def update_room_price(self, category, amount_to_increase):
+        # NOTE: Real cases can be complex but here we just increase cost price by 10
+        _logger.info('Method update_room_price called from XML')
+        category_rooms = self.search([('category_id', '=', category.id)])
+        for room in category_rooms:
+            room.cost_price += amount_to_increase
 
     @api.model
     def is_allowed_transition(self, old_state, new_state):

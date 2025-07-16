@@ -20,4 +20,6 @@
 
     <delete model="hostel.room.category" id="room_category_to_remove"/>
 
+    <function model="hostel.room" name="update_room_price" eval="(ref('room_category_all'), 20)"/>
+
 </odoo>
