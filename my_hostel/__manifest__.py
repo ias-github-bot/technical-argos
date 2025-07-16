@@ -23,6 +23,7 @@ Efficiently manage the entire residential facility in the school
         "views/hostel_student.xml",
         "views/hostel_categ.xml",
         "views/hostel_room_category_view.xml",
+        "views/hostel_room_availability_view.xml",
     ],
     # This demo data files will be loaded if db initialize with demo data (commented because file is not added in this example)
     "demo": [
