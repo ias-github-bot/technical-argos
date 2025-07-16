@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
     <record id='hostel_category_action' model='ir.actions.act_window'>
         <field name="name">Hostel Categories</field>
         <field name="res_model">hostel.category</field>
@@ -40,4 +41,5 @@
             </list>
         </field>
     </record>
+
 </odoo>
