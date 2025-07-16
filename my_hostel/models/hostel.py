@@ -33,6 +33,8 @@ class Hostel(models.Model):
                                  digits='Rating Value' # Method 2
                                  )
     category_id = fields.Many2one('hostel.category')
+    rector = fields.Many2one("res.partner", "Rector",
+        help="Select hostel rector")
 
     @api.depends('hostel_code')
     def _compute_display_name(self):
