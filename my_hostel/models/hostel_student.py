@@ -33,8 +33,8 @@ class HostelStudent(models.Model):
         default=fields.Datetime.today)
     discharge_date = fields.Date("Discharge Date",
         help="Date on which student discharge")
-    duration = fields.Integer("Duration", inverse="_inverse_duration",
-                               help="Enter duration of living")
+    duration = fields.Integer("Duration", compute="onchange_duration", inverse="_inverse_duration",
+                               help="Enter duration of living", readonly=False)
 
     def action_assign_room(self):
         return {
@@ -51,7 +51,7 @@ class HostelStudent(models.Model):
         if self.env.context.get("is_hostel_room"):
             self.room_id = False
 
-    @api.onchange('admission_date', 'discharge_date')
+    @api.depends('admission_date', 'discharge_date')
     def onchange_duration(self):
         if self.discharge_date and self.admission_date:
             self.duration = (self.discharge_date.year - \

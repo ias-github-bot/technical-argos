@@ -60,4 +60,4 @@ class HostelRoom(models.Model):
             WHERE hostel_room.room_category_id = %(cate_id)s;""", 
             {'cate_id': self.room_category_id.id})
         result = self.env.cr.fetchall()
-        _logger.warning("Average book occupation: %s", result)
+        _logger.warning("Hostel Room With Amount: %s", result)
