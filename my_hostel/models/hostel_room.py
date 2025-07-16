@@ -19,6 +19,10 @@ class HostelRoom(models.Model):
         Stage = self.env['hostel.room.stage']
         return Stage.search([], limit=1)
 
+    @api.model
+    def _group_expand_stages(self, stages, domain, order):
+        return stages.search([], order=order)
+
     name = fields.Char(string="Room Name", required=True)
     room_no = fields.Char("Room No.", required=True)
     floor_no = fields.Integer("Floor No.", default=1, help="Floor Number")
@@ -37,7 +41,8 @@ class HostelRoom(models.Model):
         store=True, string="Availability", help="Room availability in hostel")
     stage_id = fields.Many2one(
         'hostel.room.stage',
-        default=_default_room_stage
+        default=_default_room_stage,
+        group_expand='_group_expand_stages'
     )
 
     _sql_constraints = [
@@ -50,7 +55,7 @@ class HostelRoom(models.Model):
             raise ValidationError(_("Rent Amount Per Month should not be a negative value!"))
 
 
-class HostelRoomStage(models.Model):
+class LibraryRentStage(models.Model):
     _name = 'hostel.room.stage'
     _description = 'Room Stages'
     _order = 'sequence,name'
