@@ -44,6 +44,8 @@ class HostelRoom(models.Model):
         default=_default_room_stage,
         group_expand='_group_expand_stages'
     )
+    color = fields.Integer()
+    popularity = fields.Selection([('no', 'No Demand'), ('low', 'Low Demand'), ('medium', 'Average Demand'), ('high', 'High Demand'),])
 
     _sql_constraints = [
        ("room_no_unique", "unique(room_no)", "Room number must be unique!")]
@@ -55,7 +57,7 @@ class HostelRoom(models.Model):
             raise ValidationError(_("Rent Amount Per Month should not be a negative value!"))
 
 
-class LibraryRentStage(models.Model):
+class HostelRoomState(models.Model):
     _name = 'hostel.room.stage'
     _description = 'Room Stages'
     _order = 'sequence,name'
