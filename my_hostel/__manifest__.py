@@ -12,6 +12,8 @@ Long description
     "depends": ['base'],
     "license": "AGPL-3",
     'data': [
+        'security/groups.xml',
+        'security/ir.model.access.csv',
         'views/hostel_room.xml',
     ],
 }
