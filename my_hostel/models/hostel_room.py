@@ -7,6 +7,7 @@ class HostelRoom(models.Model):
     _name = "hostel.room"
     _description = "Hostel Room Information"
     _rec_name = "room_no"
+    _inherit = ['mail.thread', 'mail.activity.mixin']
 
     @api.depends("student_per_room", "student_ids")
     def _compute_check_availability(self):

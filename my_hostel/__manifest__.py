@@ -11,7 +11,7 @@ Efficiently manage the entire residential facility in the school
     "category": "Tools",
     "website": "http://www.serpentcs.com",
     "license": "AGPL-3",
-    "depends": ["base"],
+    "depends": ["base", 'mail'],
     "data": [
         "security/hostel_security.xml",
         "security/ir.model.access.csv",
