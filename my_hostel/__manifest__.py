@@ -7,6 +7,7 @@ Manage Library
 ==============
 Description related to Hostel.
     """,  # Supports reStructuredText(RST) format
+    "version": "18.0.1.0.0",
     "author": "Serpent Consulting Services Pvt. Ltd.",
     "category": "Tools",
     "website": "http://www.serpentcs.com",
