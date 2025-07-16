@@ -1,5 +1,6 @@
 from datetime import timedelta
 from odoo import _, api, models, fields
+from odoo.tests.common import Form
 
 
 class HostelStudent(models.Model):
@@ -57,3 +58,11 @@ class HostelStudent(models.Model):
                             self.admission_date.year) * 12 + \
                             (self.discharge_date.month - \
                             self.admission_date.month)
+
+    def return_room(self):
+        self.ensure_one()
+        wizard = self.env['assign.room.student.wizard']
+        with Form(wizard) as return_form:
+            return_form.room_id = self.env.ref('my_hostel.101_room')
+            record = return_form.save()
+            record.with_context(active_id=self.id).add_room_in_student()
