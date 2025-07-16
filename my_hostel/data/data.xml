@@ -9,4 +9,15 @@
      <record id="room_category_all" model="hostel.room.category" forcecreate="False">
         <field name="name">All Rooms</field>
     </record>
+
+    <!-- Temp category to delete, in real case this record created from another module -->
+    <record id="room_category_to_remove" model="hostel.room.category">
+        <field name="name">Single Sharing</field>
+    </record>
+    <record id="room_category_not_remove" model="hostel.room.category">
+        <field name="name">Double Sharing</field>
+    </record>
+
+    <delete model="hostel.room.category" id="room_category_to_remove"/>
+
 </odoo>
