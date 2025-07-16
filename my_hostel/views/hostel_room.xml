@@ -25,9 +25,10 @@
                                 <field name="room_no"/>
                                 <field name="hostel_id" required="1"/>
                                 <field name="floor_no"/>
+                                <field name="room_category_id"/>
                             </group>
                             <group>
-                                <field name="student_per_room"/>
+                                <field name="student_per_room" required="1"/>
                                 <field name="availability"/>
                                 <field name="rent_amount"/>
                                 <field name="currency_id"/>

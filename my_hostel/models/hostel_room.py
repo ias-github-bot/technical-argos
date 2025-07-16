@@ -26,10 +26,10 @@ class HostelRoom(models.Model):
         "hostel_room_amenities_rel", "room_id", "amenitiy_id",
         string="Amenities", domain="[('active', '=', True)]",
         help="Select hostel room amenities")
-    student_per_room = fields.Integer("Student Per Room", required=True,
-        help="Students allocated per room")
+    student_per_room = fields.Integer("Student Per Room", help="Students allocated per room")
     availability = fields.Float(compute="_compute_check_availability",
         store=True, string="Availability", help="Room availability in hostel")
+    room_category_id = fields.Many2one('hostel.room.category', string='Room Category')
 
     _sql_constraints = [
        ("room_no_unique", "unique(room_no)", "Room number must be unique!")]
