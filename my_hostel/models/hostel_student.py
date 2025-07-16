@@ -58,3 +58,7 @@ class HostelStudent(models.Model):
         })
         if room_rec:
             self.room_id = room_rec.id
+
+    def action_remove_room(self):
+        if self.env.context.get("is_hostel_room"):
+            self.room_id = False
