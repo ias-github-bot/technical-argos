@@ -56,7 +56,7 @@
                         <group>
                             <field name="category_id"/>
                             <field name="hostel_floors"/>
-                            <field name="active"/>
+                            <field name="active" invisible="1"/>
                             <field name="type"/>
                             <field name="hostel_rating"/>
                             <field name="other_info"/>

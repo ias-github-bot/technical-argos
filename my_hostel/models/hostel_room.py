@@ -47,6 +47,7 @@ class HostelRoom(models.Model):
     )
     color = fields.Integer()
     popularity = fields.Selection([('no', 'No Demand'), ('low', 'Low Demand'), ('medium', 'Average Demand'), ('high', 'High Demand'),])
+    active = fields.Boolean("Active", default=True)
 
     _sql_constraints = [
        ("room_no_unique", "unique(room_no)", "Room number must be unique!")]
