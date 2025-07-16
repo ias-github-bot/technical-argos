@@ -106,11 +106,22 @@ class HostelRoom(models.Model):
     def mapped_rooms(self):
         all_rooms = self.search([])
         room_authors = self.get_member_names(all_rooms)
-        _logger.info('Room Members: %s', room_authors)
+        _logger.info('Rooms Members: %s', room_authors)
 
     @api.model
     def get_member_names(self, all_rooms):
         return all_rooms.mapped('member_ids.name')
+    
+    # Sorting recordset
+    def sort_room(self):
+        all_rooms = self.search([])
+        rooms_sorted = self.sort_rooms_by_rating(all_rooms)
+        _logger.info('Rooms before sorting: %s', all_rooms)
+        _logger.info('Rooms after sorting: %s', rooms_sorted)
+
+    @api.model
+    def sort_rooms_by_rating(self, all_rooms):
+        return all_rooms.sorted(key='room_rating')
 
 
 class HostelRoomMember(models.Model):
@@ -124,5 +135,4 @@ class HostelRoomMember(models.Model):
     date_end = fields.Date('Termination Date')
     member_number = fields.Char()
     date_of_birth = fields.Date('Date of birth')
-    name = fields.Char('Name')
 
