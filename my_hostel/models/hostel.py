@@ -9,4 +9,5 @@ class Hostel(models.Model):
     hostel_code = fields.Char(string="Code", required=True)
     street = fields.Char('Street')
     street2 = fields.Char('Street2')
+    is_public = fields.Boolean(groups='my_hostel.group_hostel_manager')
     notes = fields.Text(groups="my_hostel.group_hostel_manager")

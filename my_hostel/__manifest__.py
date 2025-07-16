@@ -14,7 +14,8 @@ Efficiently manage the entire residential facility in the school
     "depends": ["base"],
     'data': [
         'security/groups.xml',
-        'security/ir.model.access.csv'
+        'security/ir.model.access.csv',
+        'security/security_rules.xml',
     ],
     # This demo data files will be loaded if db initialize with demo data (commented because file is not added in this example)
     # 'demo': [
