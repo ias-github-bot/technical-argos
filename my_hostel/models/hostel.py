@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
+import logging
+
 from odoo import api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools.translate import _
+
+_logger = logging.getLogger(__name__)
 
 
 class HostelRoom(models.Model):
@@ -65,13 +69,24 @@ class HostelRoom(models.Model):
                 (0, 0, categ2),
             ]
         }
-        # Total 3 records (1 parent and 2 child) will be created in hostel.room.category model
-        record = self.env['hostel.room.category'].create(parent_category_val)
+        self.env['hostel.room.category'].create(parent_category_val)
         return True
 
     def update_room_no(self):
         self.ensure_one()
         self.room_no = "RM002"
+
+    def find_room(self):
+        domain = [
+            '|',
+                '&', ('name', 'ilike', 'Room Name'),
+                     ('category_id.name', '=', 'Category Name'),
+                '&', ('name', 'ilike', 'Second Room Name'),
+                     ('category_id.name', '=', 'Second Category Name')
+        ]
+        Rooms = self.search(domain)
+        _logger.info('Room found: %s', Rooms)
+        return True
 
 
 class HostelRoomMember(models.Model):
