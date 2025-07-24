@@ -19,6 +19,27 @@
             <field name="model">hostel.student</field>
             <field name="arch" type="xml">
                 <form string="Student">
+                    <header>
+                        <button name="action_remove_room"
+                            string="Return Room"
+                            type="object"
+                            class="btn-primary"
+                            invisible="not room_id"
+                        />
+                        <button name="action_assign_room"
+                            string="Assign Room"
+                            type="object"
+                            class="btn-primary"
+                            invisible="room_id"
+                        />
+                        <button name="%(my_hostel.action_assign_room_student_wizard)d"
+                            string="Assign Room from action"
+                            type="action"
+                            class="btn-primary"
+                            invisible="room_id"
+                        />
+                        <field name="status" widget="statusbar" options="{'clickable': '1', 'autosave': False}"/>
+                    </header>
                     <sheet>
                         <group>
                             <group>
@@ -27,9 +48,8 @@
                                 <field name="active"/>
                             </group>
                             <group>
-                                <field name="room_id"/>
+                                <field name="room_id" readonly="True"/>
                                 <field name="hostel_id"/>
-                                <field name="status"/>
                                 <field name="admission_date"/>
                                 <field name="discharge_date"/>
                                 <field name="duration"/>

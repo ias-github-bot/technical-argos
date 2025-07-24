@@ -53,3 +53,17 @@ class HostelStudent(models.Model):
                         'message': "The discharge date cannot be later than the admission date.",
                     },
                 }
+
+    def action_assign_room(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Assign Room',
+            'res_model': 'assign.room.student.wizard',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'views': [[False, 'form']],
+            'target': 'new',
+        }
+
+    def action_remove_room(self):
+        self.room_id = False
