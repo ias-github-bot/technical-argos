@@ -34,7 +34,7 @@
                             </group>
                         </group>
                         <notebook>
-                            <page name="room_studnets" string="Studnets">
+                            <page name="room_students" string="Students">
                                 <field name="student_ids"/>
                             </page>
                             <page name="hostel_amenities" string="Room Amenities">
@@ -62,8 +62,8 @@
              </field>
         </record>
 
-        <menuitem id="hostel_room_menu" name="Hostel Room" parent="my_hostel.hostel_main_menu" 
-            action="my_hostel.action_hostel_room" groups="my_hostel.group_hostel_manager" 
+        <menuitem id="hostel_room_menu" name="Hostel Room" parent="my_hostel.hostel_main_menu"
+            action="my_hostel.action_hostel_room" groups="my_hostel.group_hostel_manager"
             sequence="2"/>
 
     </data>
