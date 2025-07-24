@@ -41,3 +41,15 @@ class HostelStudent(models.Model):
         help="Date on which student discharge")
     duration = fields.Integer("Duration", compute="_compute_check_duration", inverse="_inverse_duration",
                                help="Enter duration of living")
+
+    @api.onchange('admission_date', 'discharge_date')
+    def onchange_dates(self):
+        if self.discharge_date and self.admission_date:
+            if self.discharge_date < self.admission_date:
+                self.discharge_date = self.admission_date
+                return {
+                    'warning': {
+                        'title': "Date error",
+                        'message': "The discharge date cannot be later than the admission date.",
+                    },
+                }
