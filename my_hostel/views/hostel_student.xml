@@ -28,6 +28,7 @@
                             </group>
                             <group>
                                 <field name="room_id"/>
+                                <field name="hostel_id"/>
                                 <field name="status"/>
                                 <field name="admission_date"/>
                                 <field name="discharge_date"/>
@@ -53,8 +54,8 @@
              </field>
         </record>
 
-        <menuitem id="hostel_student_sub_menu" name="Students" parent="my_hostel.hostel_main_menu" 
-            action="my_hostel.action_hostel_student" groups="my_hostel.group_hostel_manager" 
+        <menuitem id="hostel_student_sub_menu" name="Students" parent="my_hostel.hostel_main_menu"
+            action="my_hostel.action_hostel_student" groups="my_hostel.group_hostel_manager"
             sequence="3"/>
 
     </data>
