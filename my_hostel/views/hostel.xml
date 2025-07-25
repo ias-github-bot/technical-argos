@@ -61,6 +61,26 @@
                         <group>
                             <field name="description"/>
                         </group>
+                        <notebook>
+                            <page id="hostel_room_id" name="Rooms">
+                                <group>
+                                    <field name="room_ids" nolabel="1">
+                                        <list>
+                                            <field name="name"/>
+                                            <field name="student_per_room"/>
+                                            <field name="availability"/>
+                                            <field name="rent_amount"/>
+                                        </list>
+                                    </field>
+                                </group>
+                                <group name="Quantity and Amount">
+                                    <field name="room_count"/>
+                                    <field name="room_amount_total"/>
+                                    <field name="room_available"/>
+                                    <field name="room_partial_av"/>
+                                </group>
+                            </page>
+                        </notebook>
                     </sheet>
                 </form>
             </field>

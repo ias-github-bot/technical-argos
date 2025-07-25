@@ -1,5 +1,6 @@
-from datetime import datetime, timedelta
-from odoo import fields, models, api
+from datetime import timedelta
+from odoo import fields, models, api, _
+from odoo.exceptions import ValidationError
 
 
 class HostelStudent(models.Model):
@@ -41,6 +42,12 @@ class HostelStudent(models.Model):
         help="Date on which student discharge")
     duration = fields.Integer("Duration", compute="_compute_check_duration", inverse="_inverse_duration",
                                help="Enter duration of living")
+
+    @api.constrains("room_id")
+    def _check_availability(self):
+        """Constraint on availability"""
+        if self.room_id and self.room_id.availability <= 0:
+            raise ValidationError(_("The room has no beds available."))
 
     @api.onchange('admission_date', 'discharge_date')
     def onchange_dates(self):

@@ -35,6 +35,11 @@ class Hostel(models.Model):
     category_id = fields.Many2one('hostel.category')
     rector = fields.Many2one("res.partner", "Rector",
         help="Select hostel rector")
+    room_ids = fields.One2many('hostel.room', 'hostel_id', string='Rooms')
+    room_count = fields.Integer('Number of rooms', compute='_compute_room_by_hostel')
+    room_amount_total = fields.Integer('Total amount per room rented', compute='_compute_room_by_hostel')
+    room_available = fields.Integer('Number of rooms available', compute='_compute_room_by_hostel')
+    room_partial_av = fields.Integer('Number of rooms partially available', compute='_compute_room_by_hostel')
 
     @api.depends('hostel_code')
     def _compute_display_name(self):
@@ -43,3 +48,24 @@ class Hostel(models.Model):
             if record.hostel_code:
                 name = f'{name} ({record.hostel_code})'
             record.display_name = name
+
+    @api.depends('room_ids', 'room_ids.student_per_room',
+                 'room_ids.rent_amount', 'room_ids.student_ids')
+    def _compute_room_by_hostel(self):
+        for record in self:
+            count_room = len(record.room_ids)
+            room_available = len(record.room_ids.filtered(lambda r: not r.student_ids))
+            room_part_available = len(record.room_ids.filtered(
+                lambda r: r.student_ids and len(r.student_ids) < r.student_per_room))
+            amount_total = sum(record.room_ids.filtered('student_ids').mapped('rent_amount'))
+            """
+            amunt_total = 0
+            for room in record.room_ids:
+                if room.student_ids:
+                    amount_total += room.rent_amount
+            """
+
+            record.room_count = count_room
+            record.room_amount_total = amount_total
+            record.room_available = room_available
+            record.room_partial_av = room_part_available
