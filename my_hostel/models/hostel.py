@@ -28,7 +28,7 @@ class Hostel(models.Model):
     other_info = fields.Text("Other Information",
         help="Enter more information")
     description = fields.Html('Description')
-    hostel_rating = fields.Float('Hostel Average Rating', 
+    hostel_rating = fields.Float('Hostel Average Rating',
                                 # digits=(14, 4) # Method 1: Optional precision (total, decimals),
                                  digits='Rating Value' # Method 2
                                  )

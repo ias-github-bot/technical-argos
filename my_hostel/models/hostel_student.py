@@ -59,7 +59,6 @@ class HostelStudent(models.Model):
             'type': 'ir.actions.act_window',
             'name': 'Assign Room',
             'res_model': 'assign.room.student.wizard',
-            'view_type': 'form',
             'view_mode': 'form',
             'views': [[False, 'form']],
             'target': 'new',

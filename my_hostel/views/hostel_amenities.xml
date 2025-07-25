@@ -8,6 +8,7 @@
                 <list string="Amenities">
                     <field name="name"/>
                     <field name="active"/>
+                    <field name="hostel_room_ids"/>
                 </list>
             </field>
         </record>
@@ -20,6 +21,7 @@
                     <sheet>
                         <group col="4">
                             <field name="name"/>
+                            <field name="hostel_room_ids"/>
                         </group>
                         <group col="4">
                             <field name="active"/>
@@ -43,11 +45,11 @@
              </field>
         </record>
 
-        <menuitem id="hostel_configuration" name="Configuration" parent="my_hostel.hostel_main_menu" 
-            groups="my_hostel.group_hostel_manager" 
+        <menuitem id="hostel_configuration" name="Configuration" parent="my_hostel.hostel_main_menu"
+            groups="my_hostel.group_hostel_manager"
             sequence="10"/>
 
-        <menuitem id="hostel_amenities_menu" name="Hostel Amenities" parent="my_hostel.hostel_configuration" 
+        <menuitem id="hostel_amenities_menu" name="Hostel Amenities" parent="my_hostel.hostel_configuration"
             action="my_hostel.action_hostel_amenities"
             sequence="1"/>
 
