@@ -48,7 +48,7 @@ class HostelStudent(models.Model):
     @api.constrains("room_id")
     def _check_availability(self):
         """Constraint on availability"""
-        if self.room_id and self.room_id.availability <= 0:
+        if self.room_id and self.room_id.availability < 0:
             raise ValidationError(_("The room has no beds available."))
 
     @api.onchange('admission_date', 'discharge_date')
