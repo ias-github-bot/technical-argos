@@ -50,6 +50,8 @@
                             <group>
                                 <field name="room_id" readonly="True"/>
                                 <field name="hostel_id"/>
+                                <field name="currency_id"/>
+                                <field name="rent_amount"/>
                                 <field name="admission_date"/>
                                 <field name="discharge_date"/>
                                 <field name="duration"/>

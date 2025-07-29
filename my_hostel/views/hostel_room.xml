@@ -35,7 +35,12 @@
                         </group>
                         <notebook>
                             <page name="room_students" string="Students">
-                                <field name="student_ids"/>
+                                <field name="student_ids">
+                                    <list>
+                                        <field name="name"/>
+                                        <field name="status"/>
+                                    </list>
+                                </field>
                             </page>
                             <page name="hostel_amenities" string="Room Amenities">
                                 <group>

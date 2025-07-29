@@ -30,6 +30,8 @@ class HostelStudent(models.Model):
     room_id = fields.Many2one("hostel.room", "Room",
         help="Select hostel room")
     hostel_id = fields.Many2one("hostel.hostel", related='room_id.hostel_id')
+    currency_id = fields.Many2one('res.currency', related='room_id.currency_id')
+    rent_amount = fields.Monetary(related='room_id.rent_amount')
     status = fields.Selection([("draft", "Draft"),
         ("reservation", "Reservation"), ("pending", "Pending"),
         ("paid", "Done"),("discharge", "Discharge"), ("cancel", "Cancel")],

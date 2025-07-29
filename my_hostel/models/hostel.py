@@ -52,6 +52,9 @@ class Hostel(models.Model):
     @api.depends('room_ids', 'room_ids.student_per_room',
                  'room_ids.rent_amount', 'room_ids.student_ids')
     def _compute_room_by_hostel(self):
+        # self == [recordset('hostel.hostel', 1), recordset('hostel.hostel', 2)]
+        # self.room_ids == [recordset('hostel.room', 1), recordset('hostel.room', 2)]
+        # record.room_ids == [recordset('hostel.room', 1), recordset('hostel.room', 2)]
         for record in self:
             count_room = len(record.room_ids)
             room_available = len(record.room_ids.filtered(lambda r: not r.student_ids))
